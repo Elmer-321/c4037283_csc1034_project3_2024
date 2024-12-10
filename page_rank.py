@@ -52,19 +52,27 @@ def stochastic_page_rank(graph, args):
 
 
 def distribution_page_rank(graph, args):
-    """Probabilistic PageRank estimation
 
-    Parameters:
-    graph -- a graph object as returned by load_graph()
-    args -- arguments named tuple
-
-    Returns:
-    A dict that assigns each page its probability to be reached
-
-    This function estimates the Page Rank by iteratively calculating
-    the probability that a random walker is currently on any node.
-    """
-    pass
+    c = 0
+    initial_p = 1 / len(graph)
+    node_p = {}
+    next_p = {}
+    for i in graph:
+        node_p[i] = initial_p
+    while c < args[0]:
+        for i in graph:
+            next_p[i] = 0
+        for i in graph:
+            out_edges = graph[i]
+            out_edges_size = len(out_edges)
+            p = node_p[i] / out_edges_size
+            for j in out_edges:
+                next_p[j] = p + next_p[j]
+        for i in graph:
+            node_p[i] = next_p[i]
+        c += 1
+    
+    return node_p[args[1]]
 
 
 parser = argparse.ArgumentParser(description="Estimates page ranks from link information")
@@ -96,4 +104,4 @@ parser.add_argument('-n', '--number', type=int, default=20, help="number of resu
 
 
 g = load_graph((0))
-print(stochastic_page_rank(g, (10000, "http://www.ncl.ac.uk/computing/")))
+print(distribution_page_rank(g, (10000, "http://www.ncl.ac.uk/computing/")))
