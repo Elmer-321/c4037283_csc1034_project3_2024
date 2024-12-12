@@ -6,8 +6,9 @@ import random
 from progress import Progress
 
 
-# loads a graph from a text file
+# Loads a graph from a text file
 def load_graph(args):
+
     file = open("school_web2024-1.txt")
     contains = []
     G = {}
@@ -74,6 +75,7 @@ def distribution_page_rank(graph, args):
     
     return node_p[args[1]]
 
+"""
 
 parser = argparse.ArgumentParser(description="Estimates page ranks from link information")
 parser.add_argument('datafile', nargs='?', type=argparse.FileType('r'), default=sys.stdin,
@@ -84,24 +86,21 @@ parser.add_argument('-r', '--repeats', type=int, default=1_000_000, help="number
 parser.add_argument('-s', '--steps', type=int, default=100, help="number of steps a walker takes")
 parser.add_argument('-n', '--number', type=int, default=20, help="number of results shown")
 
-# if __name__ == '__main__':
-#    args = parser.parse_args()
-#    algorithm = distribution_page_rank if args.method == 'distribution' else stochastic_page_rank
-#
-#    graph = load_graph(args)
-#
-#    print_stats(graph)
-#
-#    start = time.time()
-#    ranking = algorithm(graph, args)
-#    stop = time.time()
-#    time = stop - start
-#
-#    top = sorted(ranking.items(), key=lambda item: item[1], reverse=True)
-#    sys.stderr.write(f"Top {args.number} pages:\n")
-#    print('\n'.join(f'{100*v:.2f}\t{k}' for k,v in top[:args.number]))
-#    sys.stderr.write(f"Calculation took {time:.2f} seconds.\n")
+if __name__ == '__main__':
+    args = parser.parse_args()
+    algorithm = distribution_page_rank if args.method == 'distribution' else stochastic_page_rank
 
+    graph = load_graph(args)
 
-g = load_graph((0))
-print(distribution_page_rank(g, (10000, "http://www.ncl.ac.uk/computing/")))
+    print_stats(graph)
+
+    start = time.time()
+    ranking = algorithm(graph, args)
+    stop = time.time()
+    time = stop - start
+    top = sorted(ranking.items(), key=lambda item: item[1], reverse=True)
+    sys.stderr.write(f"Top {args.number} pages:\n")
+    print('\n'.join(f'{100*v:.2f}\t{k}' for k,v in top[:args.number]))
+    sys.stderr.write(f"Calculation took {time:.2f} seconds.\n")
+
+"""
